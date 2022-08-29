@@ -1,0 +1,62 @@
+@import '@styles/variables';
+
+.card {
+  box-sizing: border-box;
+  width: 343px;
+  padding: 16px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  background-color: $basic-white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba($basic-black, 0.075);
+  cursor: pointer;
+}
+
+.card__image {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+}
+
+.card__titleWrapper {
+  margin-right: auto;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: inherit;
+  color: $text-darkgrey;
+}
+
+.card__subtitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: $text-lightgrey;
+}
+
+.card__priceWrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+.card__price {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: $text-grey;
+}
+
+.card__change {
+  font-size: 10px;
+  font-weight: 500;
+  
+  &_green {
+    color: $text-green;
+  }
+
+  &_red {
+    color: $text-red;
+  }
+}

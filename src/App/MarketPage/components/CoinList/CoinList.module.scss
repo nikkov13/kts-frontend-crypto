@@ -1,0 +1,11 @@
+@import "@styles/mixins";
+
+.list {
+  width: fit-content;
+
+  @include reset-list;
+}
+
+.list__item {
+  margin-bottom: 8px;
+}
