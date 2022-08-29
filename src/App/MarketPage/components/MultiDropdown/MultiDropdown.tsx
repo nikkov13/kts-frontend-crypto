@@ -34,7 +34,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     <div className={styles.dropdown} onClick={() => setIsOpen(!isOpen)}>
       <button className={dropdownBtnClass} disabled={disabled}>
         Market-<span className={styles.dropdown__currency}>{value}</span>
-        <IconArrow />
+        <IconArrow className={styles.dropdown__buttonIcon} />
       </button>
       {!disabled && isOpen && (
         <ul className={styles.dropdown__list}>
