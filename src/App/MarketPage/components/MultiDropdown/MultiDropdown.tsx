@@ -1,5 +1,6 @@
-import React from "react";
+import { useState } from "react";
 
+import { ReactComponent as IconArrow } from "@icons/IconArrow.svg";
 import classNames from "classnames";
 
 import styles from "./MultiDropdown.module.scss";
@@ -22,7 +23,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   disabled,
   onChange,
 }) => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const dropdownBtnClass: string = classNames(styles.dropdown__button, {
     [styles.dropdown__button_disabled]: disabled,
@@ -33,15 +34,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     <div className={styles.dropdown} onClick={() => setIsOpen(!isOpen)}>
       <button className={dropdownBtnClass} disabled={disabled}>
         Market-<span className={styles.dropdown__currency}>{value}</span>
-        <svg
-          className={styles.dropdown__buttonIcon}
-          width="7"
-          height="4"
-          fill="#6C757D"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="m6.856.541-2.88 3.237c-.273.296-.694.296-.955 0L.14.54C-.131.235.006 0 .427 0h6.145c.433 0 .558.235.285.541Z" />
-        </svg>
+        <IconArrow />
       </button>
       {!disabled && isOpen && (
         <ul className={styles.dropdown__list}>

@@ -7,9 +7,12 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+
+  text-decoration: none;
   background-color: $basic-white;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba($basic-black, 0.075);
+
   cursor: pointer;
 }
 

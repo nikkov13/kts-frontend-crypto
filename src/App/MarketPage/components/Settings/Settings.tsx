@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { API_BASE } from "@config/contants";
 import axios from "axios";

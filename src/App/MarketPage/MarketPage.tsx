@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { Coin } from "@components/Card/Card";
 import WithLoader from "@components/WithLoader";
@@ -10,6 +10,15 @@ import Header from "./components/Header";
 import Settings from "./components/Settings";
 import styles from "./MarketPage.module.scss";
 
+type ResponseItem = {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  price_change_percentage_24h: number;
+};
+
 const MarketPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -18,16 +27,19 @@ const MarketPage: React.FC = () => {
     setIsLoading(true);
 
     const fetch = async () => {
-      let result = await axios.get(API_BASE + "coins/markets?vs_currency=usd");
+      const result: { data: ResponseItem[] } = await axios.get(
+        API_BASE + "coins/markets?vs_currency=usd"
+      );
 
       setCoins(
         result.data.map(
-          (item: { [key: string]: string | number }): Coin => ({
-            symbol: String(item.symbol),
-            name: String(item.name),
-            image: String(item.image),
-            price: Number(item.current_price),
-            priceChange: Number(item.price_change_percentage_24h),
+          (item): Coin => ({
+            id: item.id,
+            symbol: item.symbol,
+            name: item.name,
+            image: item.image,
+            price: item.current_price,
+            changePercents: item.price_change_percentage_24h,
           })
         )
       );

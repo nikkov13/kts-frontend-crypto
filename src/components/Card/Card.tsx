@@ -1,32 +1,36 @@
-import React from "react";
-
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 import styles from "./Card.module.scss";
 
 export type Coin = {
+  id: string;
   image: string;
   name: string;
   symbol: string;
   price: number;
-  priceChange: number;
+  changePercents: number;
+  changeValue?: number;
 };
 
 export type CardProps = {
   coin: Coin;
+  className?: string;
   onClick?: React.MouseEventHandler;
 };
 
-const Card: React.FC<CardProps> = ({ coin, onClick }) => {
-  const changeColor: string = Number(coin.priceChange) > 0 ? "green" : "red";
+const Card: React.FC<CardProps> = ({ coin, className }) => {
+  const changeColor: string = Number(coin.changePercents) > 0 ? "green" : "red";
 
   const changeClass: string = classNames(
     styles.card__change,
     styles["card__change_" + changeColor]
   );
 
+  const cardClass = classNames(styles.card, className);
+
   return (
-    <div className={styles.card} onClick={onClick}>
+    <Link to={`/coin/${coin.id}`} className={cardClass}>
       <img
         className={styles.card__image}
         src={coin.image}
@@ -38,9 +42,9 @@ const Card: React.FC<CardProps> = ({ coin, onClick }) => {
       </div>
       <div className={styles.card__priceWrapper}>
         <span className={styles.card__price}>${coin.price.toFixed(2)}</span>
-        <span className={changeClass}>{coin.priceChange.toFixed(2)}%</span>
+        <span className={changeClass}>{coin.changePercents.toFixed(2)}%</span>
       </div>
-    </div>
+    </Link>
   );
 };
 
