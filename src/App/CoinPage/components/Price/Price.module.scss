@@ -1,0 +1,27 @@
+@import "@styles/variables";
+
+.price {
+  width: 343px;
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.price__value {
+  margin-right: 12px;
+  font-size: 24px;
+  font-weight: 500;
+  color: $text-darkgrey;
+}
+
+.price__change {
+  font-size: 16px;
+
+  &_green {
+    color: $text-green;
+  }
+
+  &_red {
+    color: $text-red;
+  }
+}

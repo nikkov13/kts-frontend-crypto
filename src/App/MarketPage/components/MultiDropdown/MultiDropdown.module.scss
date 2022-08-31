@@ -1,0 +1,75 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.dropdown {
+  position: relative;
+  font-size: 12px;
+  font-weight: 400;
+  color: $text-lightgrey;
+}
+
+.dropdown__button {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  padding: 4px 8px;
+
+  font-size: inherit;
+  color: inherit;
+
+  background-color: transparent;
+  border: 0.5px solid $border-grey;
+  border-radius: 12px;
+  cursor: pointer;
+
+  &_disabled {
+    cursor: auto;
+  }
+
+  &_open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    & .dropdown__buttonIcon {
+      transform: rotateX(-180deg);
+    }
+  }
+}
+
+.dropdown__buttonIcon {
+  margin-left: auto;
+  transition-property: transform;
+  transition-duration: 500ms;
+}
+
+.dropdown__currency {
+  text-transform: uppercase;
+}
+
+.dropdown__list {
+  position: absolute;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 100%;
+  height: 90px;
+  transform: translateY(100%);
+  overflow-y: scroll;
+  bottom: 0;
+
+  background-color: $bg-lightgrey;
+  border: 0.5px solid $border-grey;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+
+  @include reset-list;
+}
+
+.dropdown__item {
+  padding: 5px 8px;
+  border-bottom: 0.5px solid $border-grey;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
