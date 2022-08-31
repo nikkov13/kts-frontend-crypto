@@ -22,9 +22,9 @@ type Response = {
     large: string;
   };
   market_data: {
-    current_price: { [key: string]: number };
-    price_change_percentage_24h_in_currency: { [key: string]: number };
-    price_change_24h_in_currency: { [key: string]: number };
+    current_price: Record<string, number>;
+    price_change_percentage_24h_in_currency: Record<string, number>;
+    price_change_24h_in_currency: Record<string, number>;
   };
 };
 
