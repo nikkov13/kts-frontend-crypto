@@ -18,17 +18,13 @@ const Settings: React.FC = () => {
 
   return (
     <ul className={styles.settings__list}>
-      {timeRanges.map((item) => {
+      {timeRanges.map((item, i) => {
         const className = classnames(styles.settings__item, {
           [styles.settings__item_active]: item === active,
         });
 
         return (
-          <li
-            className={className}
-            key={item.replace(" ", "")}
-            onClick={() => setActive(item)}
-          >
+          <li className={className} key={i} onClick={() => setActive(item)}>
             {item}
           </li>
         );
