@@ -1,3 +1,4 @@
+import { formPriceChange } from "@utils/utils";
 import classnames from "classnames";
 
 import styles from "./Price.module.scss";
@@ -18,11 +19,6 @@ const Price: React.FC<PriceProps> = ({
     styles.price__change,
     styles[`price__change_${changeColor}`]
   );
-
-  const formPriceChange = (value: number, percents: number): string => {
-    const sign: string = value > 0 ? "+" : "";
-    return `${sign}${value.toFixed(3)} (${percents.toFixed(2)}%)`;
-  };
 
   return (
     <div className={styles.price}>
