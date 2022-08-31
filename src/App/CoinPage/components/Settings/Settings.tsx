@@ -19,8 +19,6 @@ const Settings: React.FC = () => {
   return (
     <ul className={styles.settings__list}>
       {timeRanges.map((item) => {
-        // eslint-disable-next-line no-console
-        console.log(item, active);
         const className = classnames(styles.settings__item, {
           [styles.settings__item_active]: item === active,
         });

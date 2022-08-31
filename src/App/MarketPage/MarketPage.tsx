@@ -20,12 +20,12 @@ type ResponseItem = {
 };
 
 const MarketPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line no-console
+  console.log("render MarketPage");
+  const [isLoading, setIsLoading] = useState(true);
   const [coins, setCoins] = useState<Coin[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-
     const fetch = async () => {
       const result: { data: ResponseItem[] } = await axios.get(
         API_BASE + "coins/markets?vs_currency=usd"

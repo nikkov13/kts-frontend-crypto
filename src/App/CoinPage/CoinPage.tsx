@@ -29,7 +29,9 @@ type Response = {
 };
 
 const CoinPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line no-console
+  console.log("render coinpage");
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Coin>();
 
   const { id } = useParams();
@@ -37,8 +39,6 @@ const CoinPage: React.FC = () => {
   const currency: string = "usd";
 
   useEffect(() => {
-    setIsLoading(true);
-
     const fetch = async () => {
       const result = await axios.get(API_BASE + `coins/${id}`);
       const data: Response = result.data;

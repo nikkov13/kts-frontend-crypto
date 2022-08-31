@@ -23,7 +23,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   disabled,
   onChange,
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const dropdownBtnClass: string = classNames(styles.dropdown__button, {
     [styles.dropdown__button_disabled]: disabled,
