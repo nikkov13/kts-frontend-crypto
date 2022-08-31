@@ -14,7 +14,7 @@ export type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ image, name, symbol }) => {
   return (
     <div className={styles.header}>
-      <Link to={"/"} className={styles.header__backButton}>
+      <Link to="/" className={styles.header__backButton}>
         <IconBack />
       </Link>
       <img className={styles.header__image} src={image} alt={`${name} logo`} />
