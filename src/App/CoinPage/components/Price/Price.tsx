@@ -1,4 +1,4 @@
-import { formPriceChange } from "@utils/utils";
+import { formPriceChange } from "@utils/formPriceChange";
 import classnames from "classnames";
 
 import styles from "./Price.module.scss";
