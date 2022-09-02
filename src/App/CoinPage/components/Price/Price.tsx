@@ -1,4 +1,5 @@
-import { formPriceChange } from "@utils/formPriceChange";
+import { formatPrice } from "@utils/formatPrice";
+import { formatPriceChange } from "@utils/formatPriceChange";
 import classnames from "classnames";
 
 import styles from "./Price.module.scss";
@@ -22,9 +23,9 @@ const Price: React.FC<PriceProps> = ({
 
   return (
     <div className={styles.price}>
-      <span className={styles.price__value}>${price}</span>
+      <span className={styles.price__value}>{formatPrice(price)}</span>
       <span className={changeClass}>
-        {formPriceChange(changeValue, changePercents)}
+        {formatPriceChange(changeValue, changePercents)}
       </span>
     </div>
   );

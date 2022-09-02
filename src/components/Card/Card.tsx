@@ -1,4 +1,6 @@
 import { CoinItemModel } from "@store/models/coin";
+import { formatPercent } from "@utils/formatPercent";
+import { formatPrice } from "@utils/formatPrice";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 
@@ -32,8 +34,10 @@ const Card: React.FC<CardProps> = ({ coin, className }) => {
         <span className={styles.card__subtitle}>{coin.symbol}</span>
       </div>
       <div className={styles.card__priceWrapper}>
-        <span className={styles.card__price}>${coin.price.toFixed(2)}</span>
-        <span className={changeClass}>{coin.changePercents.toFixed(2)}%</span>
+        <span className={styles.card__price}>{formatPrice(coin.price)}</span>
+        <span className={changeClass}>
+          {formatPercent(coin.changePercents)}
+        </span>
       </div>
     </Link>
   );
