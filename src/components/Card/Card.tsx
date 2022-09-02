@@ -1,20 +1,11 @@
+import { CoinItemModel } from "@store/models/coin";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 
 import styles from "./Card.module.scss";
 
-export type Coin = {
-  id: string;
-  image: string;
-  name: string;
-  symbol: string;
-  price: number;
-  changePercents: number;
-  changeValue?: number;
-};
-
 export type CardProps = {
-  coin: Coin;
+  coin: CoinItemModel;
   className?: string;
   onClick?: React.MouseEventHandler;
 };

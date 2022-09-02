@@ -1,10 +1,10 @@
 import Card from "@components/Card";
-import type { Coin } from "@components/Card/Card";
+import { CoinItemModel } from "@store/models/coin";
 
 import styles from "./CoinList.module.scss";
 
 export type CoinListProps = {
-  coins: Coin[];
+  coins: CoinItemModel[];
 };
 
 const CoinList: React.FC<CoinListProps> = ({ coins }) => {

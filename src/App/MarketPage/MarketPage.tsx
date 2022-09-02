@@ -1,64 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import type { Coin } from "@components/Card/Card";
 import WithLoader from "@components/WithLoader";
-import { API_BASE } from "@config/contants";
-import axios from "axios";
+import CoinsListStore from "@store/CoinsListStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 
 import CoinList from "./components/CoinList";
 import Header from "./components/Header";
 import Settings from "./components/Settings";
 import styles from "./MarketPage.module.scss";
 
-type ResponseItem = {
-  id: string;
-  symbol: string;
-  name: string;
-  image: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-};
-
 const MarketPage: React.FC = () => {
-  // eslint-disable-next-line no-console
-  console.log("render MarketPage");
-  const [isLoading, setIsLoading] = useState(true);
-  const [coins, setCoins] = useState<Coin[]>([]);
+  const coinsListStore = useLocalStore(() => new CoinsListStore());
 
   useEffect(() => {
-    const fetch = async () => {
-      const result: { data: ResponseItem[] } = await axios.get(
-        API_BASE + "coins/markets?vs_currency=usd"
-      );
-
-      setCoins(
-        result.data.map(
-          (item): Coin => ({
-            id: item.id,
-            symbol: item.symbol,
-            name: item.name,
-            image: item.image,
-            price: item.current_price,
-            changePercents: item.price_change_percentage_24h,
-          })
-        )
-      );
-
-      setIsLoading(false);
-    };
-
-    fetch();
-  }, []);
+    coinsListStore.getCoinsList();
+  }, [coinsListStore]);
 
   return (
     <div className={styles.marketPage}>
-      <WithLoader loading={isLoading}>
+      <WithLoader loading={coinsListStore.isLoading}>
         <Header />
         <Settings />
-        <CoinList coins={coins} />
+        <CoinList coins={coinsListStore.list} />
       </WithLoader>
     </div>
   );
 };
 
-export default MarketPage;
+export default observer(MarketPage);
