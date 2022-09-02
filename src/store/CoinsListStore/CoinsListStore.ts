@@ -1,11 +1,14 @@
 import { API_BASE } from "@config/contants";
+import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
+  reaction,
   runInAction,
 } from "mobx";
 
@@ -39,8 +42,10 @@ export default class CoinsListStore implements ILocalStore {
     this._isLoading = true;
     this._list = [];
 
+    const currency = rootStore.currentCurrency.currency;
+
     const response = await axios.get<CoinItemApi[]>(
-      API_BASE + "coins/markets?vs_currency=usd"
+      API_BASE + "coins/markets?vs_currency=" + currency
     );
 
     runInAction(() => {
@@ -48,6 +53,11 @@ export default class CoinsListStore implements ILocalStore {
       this._list = response.data.map((item) => normalizeCoin(item));
     });
   }
+
+  private readonly _getCoinsList: IReactionDisposer = reaction(
+    () => rootStore.currentCurrency.currency,
+    () => this.getCoinsList()
+  );
 
   destroy(): void {
     // nothing

@@ -1,33 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { API_BASE } from "@config/contants";
-import axios from "axios";
+import CurrenciesStore from "@store/CurrenciesStore";
+import rootStore from "@store/RootStore";
+import { useLocalStore } from "@utils/useLocalStore";
+import { observer } from "mobx-react-lite";
 
 import Filter from "../Filter";
 import MultiDropdown from "../MultiDropdown";
 import styles from "./Settings.module.scss";
 
 const Settings: React.FC = () => {
-  const [currencies, setCurrencies] = useState<string[]>([]);
-  const [value, setValue] = useState<string>("usd");
+  const currenciesStore = useLocalStore(() => new CurrenciesStore());
+  const currentCurrencyStore = rootStore.currentCurrency;
 
   useEffect(() => {
-    const fetch = async () => {
-      let result = await axios.get(API_BASE + "simple/supported_vs_currencies");
-      setCurrencies(result.data);
-    };
-
-    fetch();
-  }, []);
+    currenciesStore.getCurrencies();
+  }, [currenciesStore]);
 
   return (
     <div className={styles.settings}>
       <div className={styles.settings__wrapper}>
         <h2 className={styles.settings__title}>Coins</h2>
         <MultiDropdown
-          options={currencies}
-          value={value}
-          onChange={(value) => setValue(value)}
+          options={currenciesStore.currencies}
+          value={currentCurrencyStore.currency}
+          onChange={(value) => {
+            currentCurrencyStore.currency = value;
+          }}
         />
       </div>
       <Filter />
@@ -35,4 +34,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings;
+export default observer(Settings);

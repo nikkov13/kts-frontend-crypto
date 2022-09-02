@@ -16,6 +16,9 @@ import Settings from "./components/Settings";
 import Transactions from "./components/Transactions";
 
 const CoinPage: React.FC = () => {
+  // eslint-disable-next-line no-console
+  console.log("render");
+
   const { id } = useParams();
   const coinStore = useLocalStore(() => new CoinStore());
 

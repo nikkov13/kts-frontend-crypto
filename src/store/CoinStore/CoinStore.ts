@@ -1,4 +1,5 @@
 import { API_BASE } from "@config/contants";
+import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import {
@@ -47,7 +48,10 @@ export default class CoinStore implements ILocalStore {
 
     runInAction(() => {
       this._isLoading = false;
-      this._coin = normalizeSingleCoin(response.data, "usd");
+      this._coin = normalizeSingleCoin(
+        response.data,
+        rootStore.currentCurrency.currency
+      );
     });
   }
 
