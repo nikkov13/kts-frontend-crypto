@@ -13,7 +13,7 @@ const CoinList: React.FC<CoinListProps> = ({ coins }) => {
       <ul className={styles.list}>
         {coins.map((coin) => {
           return (
-            <li className={styles.list__item} key={coin.symbol}>
+            <li className={styles.list__item} key={coin.id}>
               <Card coin={coin} />
             </li>
           );

@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 
-import WithLoader from "@components/WithLoader";
+import Loader from "@components/Loader";
+// import WithLoader from "@components/WithLoader";
 import CoinsListStore from "@store/CoinsListStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import CoinList from "./components/CoinList";
 import Header from "./components/Header";
@@ -19,11 +21,22 @@ const MarketPage: React.FC = () => {
 
   return (
     <div className={styles.marketPage}>
-      <WithLoader loading={coinsListStore.isLoading}>
-        <Header />
-        <Settings />
+      <Header />
+      <Settings />
+      <InfiniteScroll
+        hasMore={coinsListStore.hasNextPage}
+        loader={<Loader />}
+        next={() => coinsListStore.setNextPage()}
+        dataLength={coinsListStore.list.length}
+        style={{
+          overflowY: "visible",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <CoinList coins={coinsListStore.list} />
-      </WithLoader>
+      </InfiniteScroll>
     </div>
   );
 };

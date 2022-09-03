@@ -14,19 +14,26 @@ import {
 
 import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coin";
 
-type PrivateFields = "_list" | "_isLoading";
+type PrivateFields = "_list" | "_isLoading" | "_page" | "_hasNextPage";
 
 export default class CoinsListStore implements ILocalStore {
   private _list: CoinItemModel[] = [];
-  private _isLoading: boolean = false;
+  private _page = 1;
+  private _hasNextPage = true;
+  private _isLoading = false;
 
   constructor() {
     makeObservable<CoinsListStore, PrivateFields>(this, {
       _list: observable.ref,
       _isLoading: observable,
+      _page: observable,
+      _hasNextPage: observable,
       list: computed,
+      hasNextPage: computed,
       isLoading: computed,
+      setNextPage: action,
       getCoinsList: action,
+      getNewItems: action,
     });
   }
 
@@ -34,8 +41,16 @@ export default class CoinsListStore implements ILocalStore {
     return this._list;
   }
 
+  get hasNextPage(): boolean {
+    return this._hasNextPage;
+  }
+
   get isLoading(): boolean {
     return this._isLoading;
+  }
+
+  setNextPage(): void {
+    this._page++;
   }
 
   async getCoinsList(): Promise<void> {
@@ -45,7 +60,7 @@ export default class CoinsListStore implements ILocalStore {
     const currency = rootStore.currentCurrency.currency;
 
     const response = await axios.get<CoinItemApi[]>(
-      API_BASE + "coins/markets?vs_currency=" + currency
+      `${API_BASE}coins/markets?vs_currency=${currency}`
     );
 
     runInAction(() => {
@@ -54,9 +69,33 @@ export default class CoinsListStore implements ILocalStore {
     });
   }
 
+  async getNewItems(): Promise<void> {
+    const currency = rootStore.currentCurrency.currency;
+
+    const response = await axios.get<CoinItemApi[]>(
+      `${API_BASE}coins/markets?vs_currency=${currency}&per_page=100&page=${this._page}`
+    );
+
+    runInAction(() => {
+      if (response.data.length === 0) {
+        this._hasNextPage = false;
+      } else {
+        this._list = [
+          ...this._list,
+          ...response.data.map((item) => normalizeCoin(item)),
+        ];
+      }
+    });
+  }
+
   private readonly _getCoinsList: IReactionDisposer = reaction(
     () => rootStore.currentCurrency.currency,
     () => this.getCoinsList()
+  );
+
+  private readonly _getNewItems: IReactionDisposer = reaction(
+    () => this._page,
+    () => this.getNewItems()
   );
 
   destroy(): void {
