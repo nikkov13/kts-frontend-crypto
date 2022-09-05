@@ -1,5 +1,8 @@
+@import "@styles/variables";
+
 .button {
   padding: 0;
+  color: $text-grey;
   border: none;
   background-color: transparent;
   cursor: pointer;

@@ -1,4 +1,5 @@
-import { API_BASE } from "@config/contants";
+import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
+import { normalizeSearchCoins, searchCoinsApi } from "@store/models/searchCoin";
 import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -25,13 +26,12 @@ export default class CoinsListStore implements ILocalStore {
   constructor() {
     makeObservable<CoinsListStore, PrivateFields>(this, {
       _list: observable.ref,
-      _isLoading: observable,
       _page: observable,
       _hasNextPage: observable,
+      _isLoading: observable,
       list: computed,
       hasNextPage: computed,
       isLoading: computed,
-      setNextPage: action,
       getCoinsList: action,
       getNewItems: action,
     });
@@ -49,19 +49,27 @@ export default class CoinsListStore implements ILocalStore {
     return this._isLoading;
   }
 
-  setNextPage(): void {
-    this._page++;
-  }
-
   async getCoinsList(): Promise<void> {
     this._isLoading = true;
+    this._hasNextPage = true;
     this._list = [];
 
     const currency = rootStore.currentCurrency.currency;
 
-    const response = await axios.get<CoinItemApi[]>(
-      `${API_BASE}coins/markets?vs_currency=${currency}`
-    );
+    let uri = `${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}`;
+
+    const search = rootStore.query.getParam("search");
+
+    if (search !== undefined) {
+      const ids = await axios.get<searchCoinsApi>(
+        `${API_BASE}search?query=${search}`
+      );
+
+      const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
+      uri += `&ids=${idsURI}`;
+    }
+
+    const response = await axios.get<CoinItemApi[]>(uri);
 
     runInAction(() => {
       this._isLoading = false;
@@ -71,31 +79,44 @@ export default class CoinsListStore implements ILocalStore {
 
   async getNewItems(): Promise<void> {
     const currency = rootStore.currentCurrency.currency;
+    const search = rootStore.query.getParam("search");
 
-    const response = await axios.get<CoinItemApi[]>(
-      `${API_BASE}coins/markets?vs_currency=${currency}&per_page=100&page=${this._page}`
-    );
+    let uri = `${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}&page=${++this
+      ._page}`;
+
+    if (search !== undefined) {
+      const ids = await axios.get<searchCoinsApi>(
+        `${API_BASE}search?query=${search}`
+      );
+
+      const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
+      uri += `&ids=${idsURI}`;
+    }
+
+    const response = await axios.get<CoinItemApi[]>(uri);
 
     runInAction(() => {
-      if (response.data.length === 0) {
+      if (response.data.length < ITEMS_PER_PAGE) {
         this._hasNextPage = false;
-      } else {
-        this._list = [
-          ...this._list,
-          ...response.data.map((item) => normalizeCoin(item)),
-        ];
       }
+
+      this._list = [
+        ...this._list,
+        ...response.data.map((item) => normalizeCoin(item)),
+      ];
+
+      this._page = Math.ceil(this._list.length / ITEMS_PER_PAGE);
     });
   }
 
-  private readonly _getCoinsList: IReactionDisposer = reaction(
+  private readonly _currencyChangeReaction: IReactionDisposer = reaction(
     () => rootStore.currentCurrency.currency,
     () => this.getCoinsList()
   );
 
-  private readonly _getNewItems: IReactionDisposer = reaction(
-    () => this._page,
-    () => this.getNewItems()
+  private readonly _qpReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam("search"),
+    () => this.getCoinsList()
   );
 
   destroy(): void {

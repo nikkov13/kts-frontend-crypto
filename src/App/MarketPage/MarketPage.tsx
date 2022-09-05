@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 import Loader from "@components/Loader";
-// import WithLoader from "@components/WithLoader";
 import CoinsListStore from "@store/CoinsListStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
@@ -26,10 +25,10 @@ const MarketPage: React.FC = () => {
       <InfiniteScroll
         hasMore={coinsListStore.hasNextPage}
         loader={<Loader />}
-        next={() => coinsListStore.setNextPage()}
+        next={() => coinsListStore.getNewItems()}
         dataLength={coinsListStore.list.length}
         style={{
-          overflowY: "visible",
+          overflowY: "hidden",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

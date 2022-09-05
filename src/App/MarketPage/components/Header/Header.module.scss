@@ -6,9 +6,15 @@
   margin-bottom: 30px;
 }
 
+.header__search {
+  width: 270px;
+  object-fit: contain;
+  margin-right: 15px;
+}
+
 .header__flexWrapper {
   display: flex;
-  vertical-align: middle;
+  align-items: center;
   margin-bottom: 4px;
 }
 

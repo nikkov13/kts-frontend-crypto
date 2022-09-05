@@ -1,18 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useQueryParamsStore } from "@store/RootStore/hooks/useQueryParamsStore";
+import { Routes, Route } from "react-router-dom";
 
 import CoinPage from "./CoinPage";
 import MarketPage from "./MarketPage";
 
 const App: React.FC = () => {
+  useQueryParamsStore();
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MarketPage />} />
-        <Route path="/coin">
-          <Route path=":id" element={<CoinPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<MarketPage />} />
+      <Route path="/coin">
+        <Route path=":id" element={<CoinPage />} />
+      </Route>
+    </Routes>
   );
 };
 
