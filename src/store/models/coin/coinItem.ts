@@ -5,6 +5,10 @@ export type CoinItemApi = {
   image: string;
   current_price: number;
   price_change_percentage_24h: number;
+  price_change_percentage_7d_in_currency: number;
+  sparkline_in_7d: {
+    price: number[];
+  };
 };
 
 export type CoinItemModel = {
@@ -14,6 +18,8 @@ export type CoinItemModel = {
   image: string;
   price: number;
   changePercents: number;
+  changePercents7d: number;
+  sparkline: number[];
 };
 
 export const normalizeCoin = (from: CoinItemApi): CoinItemModel => ({
@@ -23,4 +29,6 @@ export const normalizeCoin = (from: CoinItemApi): CoinItemModel => ({
   image: from.image,
   price: from.current_price,
   changePercents: from.price_change_percentage_24h,
+  changePercents7d: from.price_change_percentage_7d_in_currency,
+  sparkline: from.sparkline_in_7d.price,
 });

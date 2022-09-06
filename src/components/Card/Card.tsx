@@ -1,3 +1,5 @@
+import Sparkline from "@components/Sparkline";
+import { GAIN_GREEN, LOSE_RED } from "@config/contants";
 import { CoinItemModel } from "@store/models/coin";
 import { formatPercent } from "@utils/formatPercent";
 import { formatPrice } from "@utils/formatPrice";
@@ -13,14 +15,24 @@ export type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ coin, className }) => {
-  const changeColor: string = Number(coin.changePercents) > 0 ? "green" : "red";
+  let changeClassMod = "";
 
-  const changeClass: string = classNames(
+  if (coin.changePercents7d !== 0) {
+    changeClassMod = coin.changePercents > 0 ? "green" : "red";
+  }
+
+  const changeClass = classNames(
     styles.card__change,
-    styles["card__change_" + changeColor]
+    styles["card__change_" + changeClassMod]
   );
 
   const cardClass = classNames(styles.card, className);
+
+  let sparklineColor: string | undefined;
+
+  if (coin.changePercents7d !== 0) {
+    sparklineColor = coin.changePercents7d > 0 ? GAIN_GREEN : LOSE_RED;
+  }
 
   return (
     <Link to={`/coin/${coin.id}`} className={cardClass}>
@@ -33,6 +45,11 @@ const Card: React.FC<CardProps> = ({ coin, className }) => {
         <h2 className={styles.card__title}>{coin.name}</h2>
         <span className={styles.card__subtitle}>{coin.symbol}</span>
       </div>
+      <Sparkline
+        className={styles.card__sparkline}
+        data={coin.sparkline}
+        color={sparklineColor}
+      />
       <div className={styles.card__priceWrapper}>
         <span className={styles.card__price}>{formatPrice(coin.price)}</span>
         <span className={changeClass}>

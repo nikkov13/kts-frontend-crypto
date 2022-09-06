@@ -11,6 +11,7 @@ export type SingleCoinApi = {
     current_price: Record<string, number>;
     price_change_percentage_24h_in_currency: Record<string, number>;
     price_change_24h_in_currency: Record<string, number>;
+    price_change_percentage_7d: number;
   };
 };
 
@@ -30,4 +31,6 @@ export const normalizeSingleCoin = (
   changePercents:
     from.market_data.price_change_percentage_24h_in_currency[currency],
   changeValue: from.market_data.price_change_24h_in_currency[currency],
+  sparkline: [],
+  changePercents7d: from.market_data.price_change_percentage_7d,
 });

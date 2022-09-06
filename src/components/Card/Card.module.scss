@@ -23,7 +23,8 @@
 }
 
 .card__titleWrapper {
-  margin-right: auto;
+  width: 100px;
+  margin-right: 12px;
 }
 
 .card__title {
@@ -37,6 +38,13 @@
   font-size: 10px;
   text-transform: uppercase;
   color: $text-lightgrey;
+}
+
+.card__sparkline {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  margin-right: auto;
 }
 
 .card__priceWrapper {
@@ -54,6 +62,7 @@
 .card__change {
   font-size: 10px;
   font-weight: 500;
+  color: $text-lightgrey;
   
   &_green {
     color: $text-green;

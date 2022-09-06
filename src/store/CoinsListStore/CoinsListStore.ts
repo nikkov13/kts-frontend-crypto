@@ -56,7 +56,9 @@ export default class CoinsListStore implements ILocalStore {
 
     const currency = rootStore.currentCurrency.currency;
 
-    let uri = `${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}`;
+    let uri = `
+      ${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}&sparkline=true&price_change_percentage=7d
+    `;
 
     const search = rootStore.query.getParam("search");
 
@@ -82,7 +84,7 @@ export default class CoinsListStore implements ILocalStore {
     const search = rootStore.query.getParam("search");
 
     let uri = `${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}&page=${++this
-      ._page}`;
+      ._page}&sparkline=true`;
 
     if (search !== undefined) {
       const ids = await axios.get<searchCoinsApi>(
