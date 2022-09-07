@@ -41,6 +41,7 @@ const Search: React.FC<SearchProps> = ({ className, ...args }) => {
       type="search"
       value={searchValue}
       placeholder={"Search Cryptocurrency"}
+      autoFocus
       onChange={setSearchValue}
       onKeyDown={keyDownHandler}
       onBlur={blurHandler}
