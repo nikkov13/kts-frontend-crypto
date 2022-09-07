@@ -14,8 +14,10 @@ import styles from "./Header.module.scss";
 
 const Header: React.FC = () => {
   const marketChangeStore = useLocalStore(() => new MarketChangeStore());
-  const [isSearch, setIsSearch] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isSearch, setIsSearch] = useState(
+    searchParams.get("search") ? true : false
+  );
 
   useEffect(() => {
     marketChangeStore.getMarketChange();
