@@ -1,5 +1,5 @@
 import Card from "@components/Card";
-import { CoinItemModel } from "@store/models/coin";
+import { CoinItemModel } from "@store/models/coinItem";
 
 import styles from "./CoinList.module.scss";
 

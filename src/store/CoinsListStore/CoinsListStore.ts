@@ -13,7 +13,7 @@ import {
   runInAction,
 } from "mobx";
 
-import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coin";
+import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coinItem";
 
 type PrivateFields = "_list" | "_isLoading" | "_page" | "_hasNextPage";
 

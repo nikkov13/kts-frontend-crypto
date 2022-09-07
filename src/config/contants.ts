@@ -4,3 +4,4 @@ export const ITEMS_PER_PAGE = 100;
 
 export const GAIN_GREEN = "#21BF73";
 export const LOSE_RED = "#D90429";
+export const GRAPH_BLUE = "#0063f5";

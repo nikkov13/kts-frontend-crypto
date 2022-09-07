@@ -1,6 +1,6 @@
 import Sparkline from "@components/Sparkline";
 import { GAIN_GREEN, LOSE_RED } from "@config/contants";
-import { CoinItemModel } from "@store/models/coin";
+import { CoinItemModel } from "@store/models/coinItem";
 import { formatPercent } from "@utils/formatPercent";
 import { formatPrice } from "@utils/formatPrice";
 import classNames from "classnames";

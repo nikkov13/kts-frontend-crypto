@@ -14,7 +14,7 @@ import {
   SingleCoinApi,
   SingleCoinModel,
   normalizeSingleCoin,
-} from "../models/coin";
+} from "../models/singleCoin";
 
 type PrivateFields = "_coin" | "_isLoading";
 
@@ -44,7 +44,9 @@ export default class CoinStore implements ILocalStore {
     this._isLoading = true;
     this._coin = null;
 
-    const response = await axios.get<SingleCoinApi>(API_BASE + `coins/${id}`);
+    const response = await axios.get<SingleCoinApi>(
+      `${API_BASE}coins/${id}?sparkline=true`
+    );
 
     runInAction(() => {
       this._isLoading = false;
