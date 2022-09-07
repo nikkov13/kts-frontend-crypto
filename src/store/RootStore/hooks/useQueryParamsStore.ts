@@ -7,7 +7,5 @@ import rootStore from "../instance";
 export const useQueryParamsStore = (): void => {
   const { search } = Router.useLocation();
 
-  useEffect(() => {
-    rootStore.query.setSearch(search);
-  }, [search]);
+  rootStore.query.setSearch(search);
 };
