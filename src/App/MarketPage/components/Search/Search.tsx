@@ -9,10 +9,12 @@ export type SearchProps = Omit<
 >;
 
 const Search: React.FC<SearchProps> = ({ className, ...args }) => {
-  const [searchValue, setSearchValue] = React.useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = React.useState(
+    searchParams.get("search") || ""
+  );
 
-  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       e.preventDefault();
 
@@ -26,6 +28,13 @@ const Search: React.FC<SearchProps> = ({ className, ...args }) => {
     }
   };
 
+  const blurHandler = (e: React.FocusEvent<HTMLInputElement>): void => {
+    const target = e.target as HTMLInputElement;
+    const searchParam = searchParams.get("search");
+
+    target.value = searchParam ? searchParam : "";
+  };
+
   return (
     <Input
       className={className}
@@ -34,6 +43,7 @@ const Search: React.FC<SearchProps> = ({ className, ...args }) => {
       placeholder={"Search Cryptocurrency"}
       onChange={setSearchValue}
       onKeyDown={keyDownHandler}
+      onBlur={blurHandler}
       {...args}
     />
   );
