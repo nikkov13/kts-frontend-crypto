@@ -8,14 +8,13 @@
 
 .header__search {
   width: 270px;
+  margin-right: auto;
   object-fit: contain;
   margin-right: 15px;
 }
 
 .header__flexWrapper {
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
   margin-bottom: 4px;
 }
 
@@ -51,4 +50,5 @@
   width: 20px;
   height: 20px;
   margin: 2px;
+  align-self: flex-start;
 }
