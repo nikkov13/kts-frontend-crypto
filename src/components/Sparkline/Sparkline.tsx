@@ -1,14 +1,5 @@
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-} from "chart.js";
 import { LTTB } from "downsample";
 import { Line } from "react-chartjs-2";
-
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 export type SparklineProps = {
   data: number[];
@@ -59,6 +50,9 @@ const Sparkline: React.FC<SparklineProps> = ({ className, data, color }) => {
           plugins: {
             legend: {
               display: false,
+            },
+            tooltip: {
+              enabled: false,
             },
           },
         }}

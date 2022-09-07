@@ -1,13 +1,10 @@
 import { GRAPH_BLUE } from "@config/contants";
 import { parseDataWithTime } from "@utils/parseDataWithTime";
-import { Chart, registerables } from "chart.js";
 import classnames from "classnames";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 
 import styles from "./PriceGraph.module.scss";
-
-Chart.register(...registerables);
 
 export type GraphProps = {
   data: {
