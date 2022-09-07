@@ -49,6 +49,7 @@ const PriceGraph: React.FC<GraphProps> = ({ className, data }) => {
           elements: {
             point: {
               radius: 0,
+              hitRadius: 5,
               hoverRadius: 5,
             },
             line: {
