@@ -6,9 +6,21 @@ export const formatPrice = (
 ): string => {
   const currency = rootStore.currentCurrency.currency;
 
-  return new Intl.NumberFormat("en-EN", {
-    style: "currency",
-    maximumFractionDigits: fractionDigits,
-    currency,
-  }).format(value);
+  let formattedPrice: string;
+
+  if (currency.length > 3) {
+    const formattedNumber = new Intl.NumberFormat("en-EN", {
+      maximumFractionDigits: fractionDigits,
+    }).format(value);
+
+    formattedPrice = `${currency.toUpperCase()}\xa0${formattedNumber}`;
+  } else {
+    formattedPrice = new Intl.NumberFormat("en-EN", {
+      style: "currency",
+      maximumFractionDigits: fractionDigits,
+      currency,
+    }).format(value);
+  }
+
+  return formattedPrice;
 };
