@@ -7,7 +7,7 @@ export interface ILocalStore {
 export const useLocalStore = <T extends ILocalStore>(creator: () => T): T => {
   const container = useRef<null | T>(null);
 
-  if (container.current === null) {
+  if (!container.current) {
     container.current = creator();
   }
 
