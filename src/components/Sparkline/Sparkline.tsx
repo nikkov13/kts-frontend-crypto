@@ -1,3 +1,4 @@
+import options from "@config/sparklineOptions";
 import { LTTB } from "downsample";
 import { Line } from "react-chartjs-2";
 
@@ -25,37 +26,7 @@ const Sparkline: React.FC<SparklineProps> = ({ className, data, color }) => {
             },
           ],
         }}
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: {
-              type: "linear" as const,
-              display: false,
-            },
-            xAxes: {
-              type: "linear" as const,
-              display: false,
-            },
-          },
-          elements: {
-            point: {
-              radius: 0,
-              hoverRadius: 0,
-            },
-            line: {
-              borderWidth: 1,
-            },
-          },
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              enabled: false,
-            },
-          },
-        }}
+        options={options}
       />
     </div>
   );

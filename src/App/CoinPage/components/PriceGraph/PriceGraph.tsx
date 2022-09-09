@@ -1,4 +1,5 @@
 import { GRAPH_BLUE } from "@config/contants";
+import options from "@config/priceGraphOptions";
 import { parseDataWithTime } from "@utils/parseDataWithTime";
 import classnames from "classnames";
 import { Line } from "react-chartjs-2";
@@ -31,37 +32,7 @@ const PriceGraph: React.FC<GraphProps> = ({ className, data }) => {
             },
           ],
         }}
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: {
-              type: "linear" as const,
-              display: false,
-            },
-            xAxes: {
-              type: "timeseries" as const,
-              grid: {
-                drawOnChartArea: false,
-              },
-            },
-          },
-          elements: {
-            point: {
-              radius: 0,
-              hitRadius: 5,
-              hoverRadius: 5,
-            },
-            line: {
-              borderWidth: 2,
-            },
-          },
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-        }}
+        options={options}
       />
     </div>
   );
