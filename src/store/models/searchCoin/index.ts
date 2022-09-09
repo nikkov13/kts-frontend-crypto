@@ -1,1 +1,1 @@
-export * from "./searchCoin";
+export * from "./SearchCoin";

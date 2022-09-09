@@ -1,1 +1,1 @@
-export * from "./singleCoin";
+export * from "./SingleCoin";

@@ -1,5 +1,5 @@
 import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
-import { normalizeSearchCoins, searchCoinsApi } from "@store/models/searchCoin";
+import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/SearchCoin";
 import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -12,7 +12,7 @@ import {
   runInAction,
 } from "mobx";
 
-import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coinItem";
+import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/CoinItem";
 
 type PrivateFields = "_list" | "_isLoading" | "_page" | "_hasNextPage";
 
@@ -72,7 +72,7 @@ export default class CoinsListStore implements ILocalStore {
     const search = rootStore.query.getParam("search");
 
     if (search !== undefined) {
-      const ids = await axios.get<searchCoinsApi>(
+      const ids = await axios.get<SearchCoinsApi>(
         `${API_BASE}search?query=${search}`
       );
 
@@ -96,7 +96,7 @@ export default class CoinsListStore implements ILocalStore {
       ._page}&sparkline=true`;
 
     if (search !== undefined) {
-      const ids = await axios.get<searchCoinsApi>(
+      const ids = await axios.get<SearchCoinsApi>(
         `${API_BASE}search?query=${search}`
       );
 

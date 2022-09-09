@@ -14,7 +14,7 @@ import {
   SingleCoinApi,
   SingleCoinModel,
   normalizeSingleCoin,
-} from "../models/singleCoin";
+} from "../models/SingleCoin";
 
 type PrivateFields = "_coin" | "_isLoading";
 

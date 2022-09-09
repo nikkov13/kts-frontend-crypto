@@ -1,8 +1,8 @@
 import { API_BASE } from "@config/contants";
 import {
-  marketChangeApi,
+  MarketChangeApi,
   nromalizeMarketChange,
-} from "@store/models/marketChange";
+} from "@store/models/MarketChange";
 import axios from "axios";
 import {
   action,
@@ -40,7 +40,7 @@ export default class CurrenciesStore {
     this._isLoading = true;
     this._marketChange = null;
 
-    const response = await axios.get<marketChangeApi>(API_BASE + "global");
+    const response = await axios.get<MarketChangeApi>(API_BASE + "global");
 
     runInAction(() => {
       this._isLoading = false;

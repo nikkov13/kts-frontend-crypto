@@ -1,14 +1,14 @@
-export type searchCoinsApi = {
+export type SearchCoinsApi = {
   coins: { api_symbol: string }[];
 };
 
-export type searchCoinsModel = {
+export type SearchCoinsModel = {
   ids: string;
 };
 
 export const normalizeSearchCoins = (
-  from: searchCoinsApi
-): searchCoinsModel => {
+  from: SearchCoinsApi
+): SearchCoinsModel => {
   return {
     ids: from.coins.reduce((ids, coin) => ids + `${coin.api_symbol},`, ""),
   };
