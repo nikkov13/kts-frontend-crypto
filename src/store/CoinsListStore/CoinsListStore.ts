@@ -6,7 +6,6 @@ import axios from "axios";
 import {
   action,
   computed,
-  IReactionDisposer,
   makeObservable,
   observable,
   reaction,
@@ -35,6 +34,16 @@ export default class CoinsListStore implements ILocalStore {
       getCoinsList: action,
       getNewItems: action,
     });
+
+    reaction(
+      () => rootStore.currentCurrency.currency,
+      () => this.getCoinsList()
+    );
+
+    reaction(
+      () => rootStore.query.getParam("search"),
+      () => this.getCoinsList()
+    );
   }
 
   get list(): CoinItemModel[] {
@@ -110,16 +119,6 @@ export default class CoinsListStore implements ILocalStore {
       this._page = Math.ceil(this._list.length / ITEMS_PER_PAGE);
     });
   }
-
-  private readonly _currencyChangeReaction: IReactionDisposer = reaction(
-    () => rootStore.currentCurrency.currency,
-    () => this.getCoinsList()
-  );
-
-  private readonly _qpReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam("search"),
-    () => this.getCoinsList()
-  );
 
   destroy(): void {
     // nothing
