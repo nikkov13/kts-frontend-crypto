@@ -26,16 +26,12 @@ const MarketPage: React.FC = () => {
       <Header />
       <Settings />
       <InfiniteScroll
+        className={styles.marketPage_infiniteList}
         hasMore={coinsListStore.hasNextPage}
         loader={<Loader />}
         next={() => coinsListStore.getNewItems()}
         dataLength={coinsListStore.list.length}
-        style={{
-          overflowY: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+        style={{ overflowY: "hidden" }}
       >
         <CoinList coins={coinsListStore.list} />
       </InfiniteScroll>
