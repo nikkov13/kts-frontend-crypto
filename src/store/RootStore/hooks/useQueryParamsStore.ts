@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import * as Router from "react-router-dom";
 
 import rootStore from "../instance";
