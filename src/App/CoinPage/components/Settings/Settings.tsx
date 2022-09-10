@@ -5,7 +5,7 @@ import classnames from "classnames";
 import styles from "./Settings.module.scss";
 
 const Settings: React.FC = () => {
-  const [active, setActive] = useState<string>("1 H");
+  const [active, setActive] = useState<string>("1 W");
   const timeRanges: string[] = [
     "1 H",
     "24 H",

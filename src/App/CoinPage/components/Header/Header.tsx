@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import { ReactComponent as IconBack } from "@icons/IconBack.svg";
 import { ReactComponent as IconStar } from "@icons/IconStar.svg";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Header.module.scss";
 
@@ -12,11 +12,16 @@ export type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ image, name, symbol }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.header}>
-      <Link to="/" className={styles.header__backButton}>
+      <Button
+        className={styles.header__backButton}
+        onClick={() => navigate(-1)}
+      >
         <IconBack />
-      </Link>
+      </Button>
       <img className={styles.header__image} src={image} alt={`${name} logo`} />
       <span className={styles.header__title}>
         {name} <span className={styles.header__subtitle}>({symbol})</span>

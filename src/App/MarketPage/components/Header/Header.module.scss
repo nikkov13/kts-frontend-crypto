@@ -6,17 +6,32 @@
   margin-bottom: 30px;
 }
 
+.header__search {
+  width: 270px;
+  margin-right: auto;
+  object-fit: contain;
+  margin-right: 15px;
+}
+
 .header__flexWrapper {
   display: flex;
-  vertical-align: middle;
   margin-bottom: 4px;
 }
 
-.header__title {
+.header__titleWrapper {
   margin-right: auto;
+}
+
+.header__title {
   font-size: 20px;
   font-weight: 500;
   color: $text-darkgrey;
+}
+
+.header__subtitle {
+  display: block;
+  font-size: 12px;
+  color: $text-lightgrey;
 }
 
 .header__change {
@@ -31,14 +46,9 @@
   }
 }
 
-.header__subtitle {
-  display: block;
-  font-size: 12px;
-  color: $text-lightgrey;
-}
-
 .header__searchButton {
   width: 20px;
   height: 20px;
   margin: 2px;
+  align-self: flex-start;
 }
