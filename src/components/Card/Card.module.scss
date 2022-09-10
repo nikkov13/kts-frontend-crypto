@@ -23,7 +23,8 @@
 }
 
 .card__titleWrapper {
-  width: 100px;
+  min-width: 100px;
+  width: min-content;
   margin-right: 12px;
 }
 
