@@ -1,4 +1,4 @@
-import { CoinItemModel } from "../CoinItem";
+import { CoinItemModel } from "../coinItem";
 
 export type SingleCoinApi = {
   id: string;

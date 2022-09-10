@@ -2,7 +2,7 @@ import { API_BASE } from "@config/contants";
 import {
   MarketChangeApi,
   nromalizeMarketChange,
-} from "@store/models/MarketChange";
+} from "@store/models/marketChange";
 import axios from "axios";
 import {
   action,

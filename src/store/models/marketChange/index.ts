@@ -1,1 +1,1 @@
-export * from "./MarketChange";
+export * from "./marketChange";

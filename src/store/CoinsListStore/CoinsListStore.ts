@@ -1,5 +1,5 @@
 import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
-import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/SearchCoin";
+import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/searchCoin";
 import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -12,7 +12,7 @@ import {
   runInAction,
 } from "mobx";
 
-import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/CoinItem";
+import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coinItem";
 
 type PrivateFields = "_list" | "_isLoading" | "_page" | "_hasNextPage";
 

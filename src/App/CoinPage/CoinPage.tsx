@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Card from "@components/Card/";
 import WithLoader from "@components/WithLoader";
 import CoinStore from "@store/CoinStore";
-import { singleCoinToItem } from "@store/models/SingleCoin";
+import { singleCoinToItem } from "@store/models/singleCoin";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
