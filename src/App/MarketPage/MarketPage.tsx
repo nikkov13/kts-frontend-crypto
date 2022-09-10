@@ -31,7 +31,7 @@ const MarketPage: React.FC = () => {
         loader={<Loader />}
         next={() => coinsListStore.getNewItems()}
         dataLength={coinsListStore.list.length}
-        style={{ overflowY: "hidden" }}
+        style={{ overflow: "hidden" }}
       >
         <CoinList coins={coinsListStore.list} />
       </InfiniteScroll>
