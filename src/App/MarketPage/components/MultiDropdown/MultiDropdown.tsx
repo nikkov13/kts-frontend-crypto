@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ReactComponent as IconArrow } from "@icons/IconArrow.svg";
+import IconArrow from "@icons/IconArrow.svg";
 import classNames from "classnames";
 
 import styles from "./MultiDropdown.module.scss";

@@ -1,6 +1,6 @@
 import Button from "@components/Button";
-import { ReactComponent as IconBack } from "@icons/IconBack.svg";
-import { ReactComponent as IconStar } from "@icons/IconStar.svg";
+import IconBack from "@icons/IconBack.svg";
+import IconStar from "@icons/IconStar.svg";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Header.module.scss";
