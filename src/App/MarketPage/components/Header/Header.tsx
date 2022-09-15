@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Button from "@components/Button";
-import { ReactComponent as IconSearch } from "@icons/IconSearch.svg";
+import IconSearch from "@icons/IconSearch.svg";
 import MarketChangeStore from "@store/MarketChangeStore";
 import { formatPercent } from "@utils/formatPercent";
 import { useLocalStore } from "@utils/useLocalStore";

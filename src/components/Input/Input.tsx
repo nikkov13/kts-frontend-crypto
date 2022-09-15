@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ReactComponent as IconSearch } from "@icons/IconSearch.svg";
+import IconSearch from "@icons/IconSearch.svg";
 import classNames from "classnames";
 
 import styles from "./Input.module.scss";
