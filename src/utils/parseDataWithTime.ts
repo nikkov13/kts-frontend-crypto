@@ -1,4 +1,4 @@
-type parsedData = {
+type ParsedData = {
   x: number;
   y: number;
 };
@@ -6,7 +6,7 @@ type parsedData = {
 export const parseDataWithTime = (
   price: number[],
   lastDate: string
-): parsedData[] => {
+): ParsedData[] => {
   const days = 7;
   const interval = (days * 24 * 60 * 60 * 1000) / price.length;
   const lastDateMil = Date.parse(lastDate);
