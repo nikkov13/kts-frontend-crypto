@@ -27,6 +27,10 @@ const options = {
     legend: {
       display: false,
     },
+    decimation: {
+      enabled: true,
+      threshold: 2,
+    },
   },
 };
 

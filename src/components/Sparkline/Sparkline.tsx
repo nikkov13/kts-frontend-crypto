@@ -1,3 +1,4 @@
+import { SPARKLINE_POINTS } from "@config/contants";
 import options from "@config/sparklineOptions";
 import { LTTB } from "downsample";
 import { Line } from "react-chartjs-2";
@@ -12,7 +13,7 @@ const Sparkline: React.FC<SparklineProps> = ({ className, data, color }) => {
   const parsedData = data.map((item, i) => {
     return { x: i, y: item };
   });
-  const downscaledData = LTTB(parsedData, 15);
+  const downscaledData = LTTB(parsedData, SPARKLINE_POINTS);
 
   return (
     <div className={className}>

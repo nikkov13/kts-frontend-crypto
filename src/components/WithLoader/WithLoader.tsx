@@ -5,12 +5,7 @@ export type WithLoaderProps = React.PropsWithChildren<{
 }>;
 
 const WithLoader: React.FC<WithLoaderProps> = ({ loading, children }) => {
-  return (
-    <>
-      {children}
-      <Loader loading={loading} />
-    </>
-  );
+  return <>{loading ? <Loader loading={loading} /> : children}</>;
 };
 
 export default WithLoader;

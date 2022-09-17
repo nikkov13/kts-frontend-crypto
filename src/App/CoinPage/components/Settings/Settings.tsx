@@ -1,31 +1,40 @@
 import { useState } from "react";
 
+import Button from "@components/Button";
+import { TimeRanges } from "@utils/getMillisByRange";
 import classnames from "classnames";
 
 import styles from "./Settings.module.scss";
 
-const Settings: React.FC = () => {
-  const [active, setActive] = useState<string>("1 W");
-  const timeRanges: string[] = [
-    "1 H",
-    "24 H",
-    "1 W",
-    "1 M",
-    "6 M",
-    "1 Y",
-    "All",
-  ];
+export type SettingsProps = {
+  onClick: (range: TimeRanges) => void;
+};
+
+const Settings: React.FC<SettingsProps> = ({ onClick }) => {
+  const [active, setActive] = useState(TimeRanges.week);
+
+  const clickHandler = (value: TimeRanges): void => {
+    setActive(value);
+    onClick(value);
+  };
 
   return (
     <ul className={styles.settings__list}>
-      {timeRanges.map((item, i) => {
-        const className = classnames(styles.settings__item, {
-          [styles.settings__item_active]: item === active,
+      {Object.values(TimeRanges).map((value, i) => {
+        const isActive = value === active;
+        const className = classnames(styles.settings__button, {
+          [styles.settings__button_active]: isActive,
         });
 
         return (
-          <li className={className} key={i} onClick={() => setActive(item)}>
-            {item}
+          <li key={i}>
+            <Button
+              className={className}
+              onClick={() => clickHandler(value)}
+              disabled={isActive}
+            >
+              {value}
+            </Button>
           </li>
         );
       })}

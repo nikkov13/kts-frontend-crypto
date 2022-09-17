@@ -1,12 +1,9 @@
-type ParsedData = {
-  x: number;
-  y: number;
-};
+import { SparklineModel } from "@store/models/Sparkline";
 
 export const parseDataWithTime = (
   price: number[],
   lastDate: string
-): ParsedData[] => {
+): SparklineModel => {
   const days = 7;
   const interval = (days * 24 * 60 * 60 * 1000) / price.length;
   const lastDateMil = Date.parse(lastDate);

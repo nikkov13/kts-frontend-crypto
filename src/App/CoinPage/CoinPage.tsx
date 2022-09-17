@@ -42,9 +42,10 @@ const CoinPage: React.FC = () => {
             />
             <PriceGraph
               className={styles.coinPage__graph}
-              data={coinData.sparkline}
+              data={coinStore.sparkline}
+              isLoading={coinStore.isSparklineLoading}
             />
-            <Settings />
+            <Settings onClick={(range) => coinStore.getRangeSparkline(range)} />
             <Card
               className={styles.coinPage__card}
               coin={singleCoinToItem(coinStore.coin)}
