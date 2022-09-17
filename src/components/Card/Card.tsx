@@ -3,6 +3,7 @@ import { GAIN_GREEN, LOSE_RED } from "@config/contants";
 import { CoinItemModel } from "@store/models/coinItem";
 import { formatPercent } from "@utils/formatPercent";
 import { formatPrice } from "@utils/formatPrice";
+import { getChangeColor } from "@utils/getChangeColor";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 
@@ -15,16 +16,11 @@ export type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ coin, className }) => {
-  let changeClassMod = "";
+  let changeClassMod = getChangeColor(coin.changePercents);
 
-  if (coin.changePercents7d !== 0) {
-    changeClassMod = coin.changePercents > 0 ? "green" : "red";
-  }
-
-  const changeClass = classNames(
-    styles.card__change,
-    styles["card__change_" + changeClassMod]
-  );
+  const changeClass = classNames(styles.card__change, {
+    [styles["card__change_" + changeClassMod]]: changeClassMod,
+  });
 
   const cardClass = classNames(styles.card, className);
 

@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import Button from "@components/Button";
 import IconSearch from "@icons/IconSearch.svg";
 import MarketChangeStore from "@store/MarketChangeStore";
-import { formatPercent } from "@utils/formatPercent";
 import { useLocalStore } from "@utils/useLocalStore";
-import classnames from "classnames";
 import { observer } from "mobx-react-lite";
 import { useSearchParams } from "react-router-dom";
 
+import MarketChange from "../MarketChange";
 import Search from "../Search";
 import styles from "./Header.module.scss";
 
@@ -32,11 +31,6 @@ const Header: React.FC = () => {
     setIsSearch(false);
   };
 
-  const changeStyles: string = classnames(
-    styles.header__change,
-    styles.header__change_red
-  );
-
   const children = isSearch ? (
     <div className={styles.header__flexWrapper}>
       <Search className={styles.header__search} />
@@ -46,17 +40,10 @@ const Header: React.FC = () => {
     <>
       <div className={styles.header__flexWrapper}>
         {marketChange && (
-          <div className={styles.header__titleWrapper}>
-            <span className={styles.header__title}>
-              Market is {marketChange > 0 ? "up" : "down"}{" "}
-              <span className={changeStyles}>
-                {formatPercent(marketChange)}
-              </span>
-            </span>
-            <span className={styles.header__subtitle}>
-              In the past 24 hours
-            </span>
-          </div>
+          <MarketChange
+            className={styles.header__marketChange}
+            change={marketChange}
+          />
         )}
         <Button
           className={styles.header__searchButton}

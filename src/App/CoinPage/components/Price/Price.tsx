@@ -1,5 +1,6 @@
 import { formatPrice } from "@utils/formatPrice";
 import { formatPriceChange } from "@utils/formatPriceChange";
+import { getChangeColor } from "@utils/getChangeColor";
 import classnames from "classnames";
 
 import styles from "./Price.module.scss";
@@ -15,7 +16,8 @@ const Price: React.FC<PriceProps> = ({
   changeValue,
   changePercents,
 }) => {
-  const changeColor: string = changeValue > 0 ? "green" : "red";
+  const changeColor = getChangeColor(changeValue);
+
   const changeClass: string = classnames(
     styles.price__change,
     styles[`price__change_${changeColor}`]
