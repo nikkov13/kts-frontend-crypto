@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import IconArrow from "@icons/IconArrow.svg";
+import { useOutsideClick } from "@utils/useOutsideClick";
 import classNames from "classnames";
 
 import styles from "./MultiDropdown.module.scss";
@@ -24,6 +25,13 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+
+  const close = (): void => {
+    if (isOpen) setIsOpen(false);
+  };
+
+  useOutsideClick(wrapperRef, close);
 
   const dropdownBtnClass: string = classNames(styles.dropdown__button, {
     [styles.dropdown__button_disabled]: disabled,
@@ -37,7 +45,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         <IconArrow className={styles.dropdown__buttonIcon} />
       </button>
       {!disabled && isOpen && (
-        <ul className={styles.dropdown__list}>
+        <ul ref={wrapperRef} className={styles.dropdown__list}>
           {options.map((option) => {
             return (
               <li
