@@ -23,8 +23,8 @@
 }
 
 .card__titleWrapper {
-  min-width: 100px;
-  width: min-content;
+  width: 100px;
+  flex-shrink: 1;
   margin-right: 12px;
 }
 
