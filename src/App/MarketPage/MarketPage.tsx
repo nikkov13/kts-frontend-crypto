@@ -19,6 +19,7 @@ const MarketPage: React.FC = () => {
 
   useEffect(() => {
     coinsListStore.getCoinsList();
+    return () => coinsListStore.destroy();
   }, [coinsListStore]);
 
   return (

@@ -34,16 +34,6 @@ export default class CoinsListStore implements ILocalStore {
       getCoinsList: action,
       getNewItems: action,
     });
-
-    reaction(
-      () => rootStore.currentCurrency.currency,
-      () => this.getCoinsList()
-    );
-
-    reaction(
-      () => rootStore.query.getParam("search"),
-      () => this.getCoinsList()
-    );
   }
 
   get list(): CoinItemModel[] {
@@ -91,6 +81,17 @@ export default class CoinsListStore implements ILocalStore {
   }
 
   destroy(): void {
-    // nothing
+    this._currencyChangeReaction();
+    this._qsChangeReaction();
   }
+
+  private readonly _currencyChangeReaction = reaction(
+    () => rootStore.currentCurrency.currency,
+    () => this.getCoinsList()
+  );
+
+  private readonly _qsChangeReaction = reaction(
+    () => rootStore.query.getParam("search"),
+    () => this.getCoinsList()
+  );
 }

@@ -2,21 +2,13 @@ import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
 import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/searchCoin";
 import rootStore from "@store/RootStore";
 import { getMillisByRange, TimeRanges } from "@utils/getMillisByRange";
+import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import { reaction } from "mobx";
 
-export default class ApiEndpointStore {
+export default class ApiEndpointStore implements ILocalStore {
   private readonly _baseUrl = API_BASE;
   private _currency = rootStore.currentCurrency.currency;
-
-  constructor() {
-    reaction(
-      () => rootStore.currentCurrency.currency,
-      (currency) => {
-        this._currency = currency;
-      }
-    );
-  }
 
   getCurrencyEndpoint(): string {
     return `${this._baseUrl}simple/supported_vs_currencies`;
@@ -56,4 +48,15 @@ export default class ApiEndpointStore {
 
     return endpoint;
   }
+
+  destroy(): void {
+    this._currencyChangeReaction();
+  }
+
+  private readonly _currencyChangeReaction = reaction(
+    () => rootStore.currentCurrency.currency,
+    (currency) => {
+      this._currency = currency;
+    }
+  );
 }
