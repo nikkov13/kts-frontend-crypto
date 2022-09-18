@@ -1,4 +1,4 @@
-import { API_BASE } from "@config/contants";
+import apiEndpointStore from "@store/ApiEndpointStore";
 import axios from "axios";
 import {
   action,
@@ -36,9 +36,8 @@ export default class CurrenciesStore {
     this._isLoading = true;
     this._currencies = [];
 
-    const response = await axios.get<string[]>(
-      API_BASE + "simple/supported_vs_currencies"
-    );
+    const endpoint = apiEndpointStore.getCurrencyEndpoint();
+    const response = await axios.get<string[]>(endpoint);
 
     runInAction(() => {
       this._isLoading = false;

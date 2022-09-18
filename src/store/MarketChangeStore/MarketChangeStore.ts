@@ -1,4 +1,4 @@
-import { API_BASE } from "@config/contants";
+import apiEndpointStore from "@store/ApiEndpointStore";
 import {
   MarketChangeApi,
   nromalizeMarketChange,
@@ -40,7 +40,8 @@ export default class CurrenciesStore {
     this._isLoading = true;
     this._marketChange = null;
 
-    const response = await axios.get<MarketChangeApi>(API_BASE + "global");
+    const endpoint = apiEndpointStore.getChangeEndpoint();
+    const response = await axios.get<MarketChangeApi>(endpoint);
 
     runInAction(() => {
       this._isLoading = false;

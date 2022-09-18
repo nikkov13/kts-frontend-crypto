@@ -1,5 +1,5 @@
-import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
-import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/searchCoin";
+import { ITEMS_PER_PAGE } from "@config/contants";
+import apiEndpointStore from "@store/ApiEndpointStore";
 import rootStore from "@store/RootStore";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -63,24 +63,8 @@ export default class CoinsListStore implements ILocalStore {
     this._hasNextPage = true;
     this._list = [];
 
-    const currency = rootStore.currentCurrency.currency;
-
-    let uri = `
-      ${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}&sparkline=true&price_change_percentage=7d
-    `;
-
-    const search = rootStore.query.getParam("search");
-
-    if (search !== undefined) {
-      const ids = await axios.get<SearchCoinsApi>(
-        `${API_BASE}search?query=${search}`
-      );
-
-      const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
-      uri += `&ids=${idsURI}`;
-    }
-
-    const response = await axios.get<CoinItemApi[]>(uri);
+    const endpoint = await apiEndpointStore.getListEndpoint(this._page);
+    const response = await axios.get<CoinItemApi[]>(endpoint);
 
     runInAction(() => {
       this._isLoading = false;
@@ -89,22 +73,8 @@ export default class CoinsListStore implements ILocalStore {
   }
 
   async getNewItems(): Promise<void> {
-    const currency = rootStore.currentCurrency.currency;
-    const search = rootStore.query.getParam("search");
-
-    let uri = `${API_BASE}coins/markets?vs_currency=${currency}&per_page=${ITEMS_PER_PAGE}&page=${++this
-      ._page}&sparkline=true`;
-
-    if (search !== undefined) {
-      const ids = await axios.get<SearchCoinsApi>(
-        `${API_BASE}search?query=${search}`
-      );
-
-      const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
-      uri += `&ids=${idsURI}`;
-    }
-
-    const response = await axios.get<CoinItemApi[]>(uri);
+    const endpoint = await apiEndpointStore.getListEndpoint(++this._page);
+    const response = await axios.get<CoinItemApi[]>(endpoint);
 
     runInAction(() => {
       if (response.data.length < ITEMS_PER_PAGE) {

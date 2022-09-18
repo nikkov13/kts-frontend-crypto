@@ -1,11 +1,11 @@
-import { API_BASE } from "@config/contants";
+import apiEndpointStore from "@store/ApiEndpointStore";
 import {
   normalizeSparkline,
   SparklineApi,
   SparklineModel,
 } from "@store/models/Sparkline";
 import rootStore from "@store/RootStore";
-import { TimeRanges, getMillisByRange } from "@utils/getMillisByRange";
+import { TimeRanges } from "@utils/getMillisByRange";
 import { parseDataWithTime } from "@utils/parseDataWithTime";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
@@ -68,9 +68,8 @@ export default class CoinStore implements ILocalStore {
     this._isLoading = true;
     this._coin = null;
 
-    const response = await axios.get<SingleCoinApi>(
-      `${API_BASE}coins/${id}?sparkline=true`
-    );
+    const endpoint = apiEndpointStore.getCoinEndpoint(id);
+    const response = await axios.get<SingleCoinApi>(endpoint);
 
     runInAction(() => {
       this._isLoading = false;
@@ -89,11 +88,11 @@ export default class CoinStore implements ILocalStore {
     this._isSparklineLoading = true;
     this._sparkline = [];
 
-    const rangeMillis = getMillisByRange(range);
-
-    const response = await axios.get<SparklineApi>(
-      `${API_BASE}coins/${this._coin?.id}/market_chart/range?vs_currency=${rootStore.currentCurrency.currency}&from=${rangeMillis.start}&to=${rangeMillis.end}`
+    const endpoint = apiEndpointStore.getSparklineEndpoint(
+      this._coin?.id as string,
+      range
     );
+    const response = await axios.get<SparklineApi>(endpoint);
 
     runInAction(() => {
       this._isSparklineLoading = false;
