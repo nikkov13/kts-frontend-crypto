@@ -29,24 +29,52 @@ export default class ApiEndpointStore implements ILocalStore {
   }
 
   async getListEndpoint(page: number): Promise<string> {
-    const searchEndpoint = await this.getSearchEndpoint();
+    const qsEndpoint = await this._getQSEndpoint();
 
-    return `${this._baseUrl}coins/markets?vs_currency=${this._currency}&per_page=${ITEMS_PER_PAGE}&page=${page}&sparkline=true&price_change_percentage=7d${searchEndpoint}`;
+    return (
+      `${this._baseUrl}coins/markets` +
+      `?vs_currency=${this._currency}` +
+      `&per_page=${ITEMS_PER_PAGE}` +
+      `&page=${page}` +
+      "&sparkline=true" +
+      "&price_change_percentage=7d" +
+      (qsEndpoint || "")
+    );
   }
 
-  async getSearchEndpoint(): Promise<string> {
+  private async _getQSEndpoint(): Promise<string> {
     const search = rootStore.query.getParam("search");
-    let endpoint = "";
+    const category = rootStore.query.getParam("category");
+
+    let searchCoins: string[] = [];
+    let favouritCoins: string[] = [];
+    let intersection: string[] = [];
 
     if (search) {
       const ids = await axios.get<SearchCoinsApi>(
         `${API_BASE}search?query=${search}`
       );
-      const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
-      endpoint = `&ids=${idsURI}`;
+      searchCoins = normalizeSearchCoins(ids.data);
     }
 
-    return endpoint;
+    if (category) {
+      favouritCoins = Array.from(rootStore.favouriteCoins.coins);
+    }
+
+    if (search && category) {
+      intersection = searchCoins.filter((value) =>
+        favouritCoins.includes(value)
+      );
+    }
+
+    return `&ids=${
+      search ? (category ? intersection : searchCoins) : favouritCoins
+    }`;
+  }
+
+  getFavouritesEndpoint(): string {
+    const favouritCoins = rootStore.favouriteCoins.coins;
+    return favouritCoins ? `&ids=${favouritCoins}` : "";
   }
 
   destroy(): void {

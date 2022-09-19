@@ -37,8 +37,10 @@
 }
 
 .dropdown__buttonText {
-  flex-grow: 1;
-  text-align: center;
+  &:disabled {
+    flex-grow: 1;
+    text-align: center;
+  }
 }
 
 .dropdown__buttonIcon {

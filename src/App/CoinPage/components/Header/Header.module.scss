@@ -36,4 +36,12 @@
 .header__favButton {
   width: 17px;
   height: 15px;
+
+  & svg {
+    transition-duration: 150ms;
+  }
+
+  &_active svg {
+    fill: $color-active;
+  }
 }

@@ -20,7 +20,7 @@ const MarketPage: React.FC = () => {
   const coinsListStore = useLocalStore(() => new CoinsListStore());
 
   useEffect(() => {
-    coinsListStore.getPage(true);
+    coinsListStore.getPage();
     return () => coinsListStore.destroy();
   }, [coinsListStore]);
 
@@ -33,7 +33,7 @@ const MarketPage: React.FC = () => {
           className={styles.marketPage_infiniteList}
           hasMore={coinsListStore.hasNextPage}
           loader={<Loader />}
-          next={() => coinsListStore.getPage()}
+          next={() => coinsListStore.getPage(true)}
           dataLength={coinsListStore.list.length}
           style={{ overflow: "hidden" }}
         >

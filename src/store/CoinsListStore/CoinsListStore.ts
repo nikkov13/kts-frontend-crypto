@@ -48,8 +48,8 @@ export default class CoinsListStore implements ILocalStore {
     return this._status;
   }
 
-  async getPage(isFirst = false): Promise<void> {
-    if (isFirst) {
+  async getPage(nextPage = false): Promise<void> {
+    if (!nextPage) {
       this._page = 0;
       this._hasNextPage = true;
       this._list = [];
@@ -85,16 +85,22 @@ export default class CoinsListStore implements ILocalStore {
 
   destroy(): void {
     this._currencyChangeReaction();
-    this._qsChangeReaction();
+    this._qsSearchReaction();
+    this._qsCategoryReaction();
   }
 
   private readonly _currencyChangeReaction = reaction(
     () => rootStore.currentCurrency.currency,
-    () => this.getPage(true)
+    () => this.getPage()
   );
 
-  private readonly _qsChangeReaction = reaction(
+  private readonly _qsSearchReaction = reaction(
     () => rootStore.query.getParam("search"),
-    () => this.getPage(true)
+    () => this.getPage()
+  );
+
+  private readonly _qsCategoryReaction = reaction(
+    () => rootStore.query.getParam("category"),
+    () => this.getPage()
   );
 }

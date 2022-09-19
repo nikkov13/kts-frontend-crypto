@@ -10,19 +10,20 @@
 }
 
 .filter__item {
-  position: relative;
   margin-right: 35px;
-  padding: 0 2px;
+}
 
+.filter__button {
+  position: relative;
+  padding: 0 2px;
   font-size: 14px;
   font-weight: 500;
   color: $text-lightgrey;
   text-transform: capitalize;
-
   border-bottom: 3px solid transparent;
 
   transition-property: color;
-  transition-duration: 300ms;
+  transition-duration: 150ms;
 
   &::after {
     content: '';
@@ -35,11 +36,12 @@
     background-color: transparent;
 
     transition-property: background-color;
-    transition-duration: 300ms;
+    transition-duration: 150ms;
   }
 
-  &_active {
+  &:disabled {
     color: $color-active;
+    cursor: auto;
 
     &::after {
       background-color: $color-active;

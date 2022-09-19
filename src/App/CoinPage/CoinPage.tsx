@@ -39,8 +39,9 @@ const CoinPage: React.FC = () => {
           {coinData && (
             <>
               <Header
-                image={coinData.image}
+                id={coinData.id}
                 name={coinData.name}
+                image={coinData.image}
                 symbol={coinData.symbol}
               />
               <Price
