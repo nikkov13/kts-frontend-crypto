@@ -15,6 +15,10 @@ export default class ApiEndpointStore implements ILocalStore {
     return `${this._baseUrl}simple/supported_vs_currencies`;
   }
 
+  getCategoriesEndpoint(): string {
+    return `${this._baseUrl}coins/categories/list`;
+  }
+
   getChangeEndpoint(): string {
     return `${this._baseUrl}/global`;
   }
@@ -45,6 +49,7 @@ export default class ApiEndpointStore implements ILocalStore {
   private async _getQSEndpoint(): Promise<string> {
     const search = rootStore.query.getParam("search");
     const category = rootStore.query.getParam("category");
+    const isFav = category === "favourites";
 
     let searchCoins: string[] = [];
     let favouritCoins: string[] = [];
@@ -57,19 +62,22 @@ export default class ApiEndpointStore implements ILocalStore {
       searchCoins = normalizeSearchCoins(ids.data);
     }
 
-    if (category) {
+    if (isFav) {
       favouritCoins = Array.from(rootStore.favouriteCoins.coins);
     }
 
-    if (search && category) {
+    if (search && isFav) {
       intersection = searchCoins.filter((value) =>
         favouritCoins.includes(value)
       );
     }
 
-    return `&ids=${
-      search ? (category ? intersection : searchCoins) : favouritCoins
-    }`;
+    const ids = search ? (isFav ? intersection : searchCoins) : favouritCoins;
+    const idsEndpoint = `&ids=${ids}`;
+    const categoryEndpoint =
+      category && !isFav && !search ? `&category=${category}` : "";
+
+    return idsEndpoint + categoryEndpoint;
   }
 
   getFavouritesEndpoint(): string {

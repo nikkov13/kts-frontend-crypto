@@ -5,8 +5,16 @@
   @include reset-list;
 
   display: flex;
+  width: 343px;
   padding: 0 20px;
   border-bottom: 1px solid $border-grey;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .filter__item {
@@ -15,6 +23,7 @@
 
 .filter__button {
   position: relative;
+  width: max-content;
   padding: 0 2px;
   font-size: 14px;
   font-weight: 500;
