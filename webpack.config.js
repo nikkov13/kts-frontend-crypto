@@ -43,7 +43,7 @@ module.exports = {
   devtool: isProd ? "hidden-source-map" : "eval-source-map",
   output: {
     path: buildPath,
-    publicPath: "./",
+    publicPath: "/",
     filename: "bundle.js",
     clean: true,
   },
