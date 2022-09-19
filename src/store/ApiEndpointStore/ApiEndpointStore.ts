@@ -1,10 +1,11 @@
 import { API_BASE, ITEMS_PER_PAGE } from "@config/contants";
 import { normalizeSearchCoins, SearchCoinsApi } from "@store/models/searchCoin";
 import rootStore from "@store/RootStore";
-import { getMillisByRange, TimeRanges } from "@utils/getMillisByRange";
+import { getMillisByRange } from "@utils/getMillisByRange";
 import { ILocalStore } from "@utils/useLocalStore";
 import axios from "axios";
 import { reaction } from "mobx";
+import { TimeRanges } from "types";
 
 export default class ApiEndpointStore implements ILocalStore {
   private readonly _baseUrl = API_BASE;
@@ -15,10 +16,10 @@ export default class ApiEndpointStore implements ILocalStore {
   }
 
   getChangeEndpoint(): string {
-    return `${this._baseUrl}global`;
+    return `${this._baseUrl}/global`;
   }
 
-  getSparklineEndpoint(id: string, range: TimeRanges): string {
+  getGraphEndpoint(id: string, range: TimeRanges): string {
     const { start, end } = getMillisByRange(range);
     return `${this._baseUrl}coins/${id}/market_chart/range?vs_currency=${this._currency}&from=${start}&to=${end}`;
   }
@@ -42,7 +43,6 @@ export default class ApiEndpointStore implements ILocalStore {
         `${API_BASE}search?query=${search}`
       );
       const idsURI = encodeURIComponent(normalizeSearchCoins(ids.data).ids);
-
       endpoint = `&ids=${idsURI}`;
     }
 

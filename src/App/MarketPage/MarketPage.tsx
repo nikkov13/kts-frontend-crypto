@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 
 import Loader from "@components/Loader";
+import WithErrorMessage from "@components/WithErrorMessage";
 import CoinsListStore from "@store/CoinsListStore";
 import { useQueryParamsStore } from "@store/RootStore/hooks/useQueryParamsStore";
 import { useLocalStore } from "@utils/useLocalStore";
 import { observer } from "mobx-react-lite";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { RequestStatus } from "types";
 
 import CoinList from "./components/CoinList";
 import Header from "./components/Header";
@@ -18,7 +20,7 @@ const MarketPage: React.FC = () => {
   const coinsListStore = useLocalStore(() => new CoinsListStore());
 
   useEffect(() => {
-    coinsListStore.getCoinsList();
+    coinsListStore.getPage(true);
     return () => coinsListStore.destroy();
   }, [coinsListStore]);
 
@@ -26,16 +28,18 @@ const MarketPage: React.FC = () => {
     <div className={styles.marketPage}>
       <Header />
       <Settings />
-      <InfiniteScroll
-        className={styles.marketPage_infiniteList}
-        hasMore={coinsListStore.hasNextPage}
-        loader={<Loader />}
-        next={() => coinsListStore.getNewItems()}
-        dataLength={coinsListStore.list.length}
-        style={{ overflow: "hidden" }}
-      >
-        <CoinList coins={coinsListStore.list} />
-      </InfiniteScroll>
+      <WithErrorMessage isError={coinsListStore.status === RequestStatus.error}>
+        <InfiniteScroll
+          className={styles.marketPage_infiniteList}
+          hasMore={coinsListStore.hasNextPage}
+          loader={<Loader />}
+          next={() => coinsListStore.getPage()}
+          dataLength={coinsListStore.list.length}
+          style={{ overflow: "hidden" }}
+        >
+          <CoinList coins={coinsListStore.list} />
+        </InfiniteScroll>
+      </WithErrorMessage>
     </div>
   );
 };

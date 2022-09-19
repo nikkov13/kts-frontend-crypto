@@ -7,19 +7,20 @@ import {
   observable,
   runInAction,
 } from "mobx";
+import { RequestStatus } from "types";
 
-type PrivateFields = "_currencies" | "_isLoading";
+type PrivateFields = "_currencies" | "_status";
 
 export default class CurrenciesStore {
   private _currencies: string[] = [];
-  private _isLoading = false;
+  private _status = RequestStatus.pending;
 
   constructor() {
     makeObservable<CurrenciesStore, PrivateFields>(this, {
       _currencies: observable.ref,
-      _isLoading: observable,
+      _status: observable,
       currencies: computed,
-      isLoading: computed,
+      status: computed,
       getCurrencies: action,
     });
   }
@@ -28,21 +29,26 @@ export default class CurrenciesStore {
     return this._currencies;
   }
 
-  get isLoading() {
-    return this._isLoading;
+  get status() {
+    return this._status;
   }
 
   async getCurrencies(): Promise<void> {
-    this._isLoading = true;
+    this._status = RequestStatus.pending;
     this._currencies = [];
 
     const endpoint = apiEndpointStore.getCurrencyEndpoint();
-    const response = await axios.get<string[]>(endpoint);
 
-    runInAction(() => {
-      this._isLoading = false;
-      this._currencies = response.data;
-    });
+    try {
+      const response = await axios.get<string[]>(endpoint);
+
+      runInAction(() => {
+        this._status = RequestStatus.success;
+        this._currencies = response.data;
+      });
+    } catch (error) {
+      this._status = RequestStatus.error;
+    }
   }
 
   destroy(): void {

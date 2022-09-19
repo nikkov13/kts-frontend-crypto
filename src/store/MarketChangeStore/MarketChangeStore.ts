@@ -11,17 +11,18 @@ import {
   observable,
   runInAction,
 } from "mobx";
+import { RequestStatus } from "types";
 
-type PrivateFields = "_marketChange" | "_isLoading";
+type PrivateFields = "_marketChange" | "_status";
 
-export default class CurrenciesStore {
+export default class MarketChangeStore {
   private _marketChange: number | null = null;
-  private _isLoading = false;
+  private _status = RequestStatus.pending;
 
   constructor() {
-    makeObservable<CurrenciesStore, PrivateFields>(this, {
+    makeObservable<MarketChangeStore, PrivateFields>(this, {
       _marketChange: observable,
-      _isLoading: observable,
+      _status: observable,
       change: computed,
       isLoading: computed,
       getMarketChange: action,
@@ -33,20 +34,25 @@ export default class CurrenciesStore {
   }
 
   get isLoading() {
-    return this._isLoading;
+    return this._status;
   }
 
   async getMarketChange(): Promise<void> {
-    this._isLoading = true;
+    this._status = RequestStatus.pending;
     this._marketChange = null;
 
     const endpoint = apiEndpointStore.getChangeEndpoint();
-    const response = await axios.get<MarketChangeApi>(endpoint);
 
-    runInAction(() => {
-      this._isLoading = false;
-      this._marketChange = nromalizeMarketChange(response.data);
-    });
+    try {
+      const response = await axios.get<MarketChangeApi>(endpoint);
+
+      runInAction(() => {
+        this._status = RequestStatus.success;
+        this._marketChange = nromalizeMarketChange(response.data);
+      });
+    } catch (error) {
+      this._status = RequestStatus.error;
+    }
   }
 
   destroy(): void {

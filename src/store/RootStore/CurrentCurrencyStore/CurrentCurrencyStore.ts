@@ -3,14 +3,14 @@ import { computed, makeObservable, observable } from "mobx";
 
 type PrivateFields = "_currency";
 
-export default class CurrenciesStore {
+export default class CurrentCurrencyStore {
   private _currency: string = (() => {
     const currency = sessionStorage.getItem("currency");
     return currency ? currency : DEFAULT_CURRENCY;
   })();
 
   constructor() {
-    makeObservable<CurrenciesStore, PrivateFields>(this, {
+    makeObservable<CurrentCurrencyStore, PrivateFields>(this, {
       _currency: observable,
       currency: computed,
     });

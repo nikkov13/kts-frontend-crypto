@@ -27,6 +27,7 @@ const Settings: React.FC = () => {
           onChange={(value) => {
             currentCurrencyStore.currency = value;
           }}
+          disabled={currenciesStore.currencies.length === 0}
         />
       </div>
       <Filter />

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import Button from "@components/Button";
-import { TimeRanges } from "@utils/getMillisByRange";
 import classnames from "classnames";
+import { TimeRanges } from "types";
 
 import styles from "./Settings.module.scss";
 

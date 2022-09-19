@@ -11,28 +11,28 @@ import {
   reaction,
   runInAction,
 } from "mobx";
+import { RequestStatus } from "types";
 
 import { CoinItemApi, CoinItemModel, normalizeCoin } from "../models/coinItem";
 
-type PrivateFields = "_list" | "_isLoading" | "_page" | "_hasNextPage";
+type PrivateFields = "_list" | "_status" | "_page" | "_hasNextPage";
 
 export default class CoinsListStore implements ILocalStore {
   private _list: CoinItemModel[] = [];
-  private _page = 1;
+  private _page = 0;
   private _hasNextPage = true;
-  private _isLoading = false;
+  private _status = RequestStatus.pending;
 
   constructor() {
     makeObservable<CoinsListStore, PrivateFields>(this, {
       _list: observable.ref,
       _page: observable,
       _hasNextPage: observable,
-      _isLoading: observable,
+      _status: observable,
       list: computed,
       hasNextPage: computed,
-      isLoading: computed,
-      getCoinsList: action,
-      getNewItems: action,
+      status: computed,
+      getPage: action,
     });
   }
 
@@ -44,40 +44,43 @@ export default class CoinsListStore implements ILocalStore {
     return this._hasNextPage;
   }
 
-  get isLoading(): boolean {
-    return this._isLoading;
+  get status(): RequestStatus {
+    return this._status;
   }
 
-  async getCoinsList(): Promise<void> {
-    this._isLoading = true;
-    this._hasNextPage = true;
-    this._list = [];
+  async getPage(isFirst = false): Promise<void> {
+    if (isFirst) {
+      this._page = 0;
+      this._hasNextPage = true;
+      this._list = [];
+    }
 
-    const endpoint = await apiEndpointStore.getListEndpoint(this._page);
-    const response = await axios.get<CoinItemApi[]>(endpoint);
+    this._status = RequestStatus.pending;
 
-    runInAction(() => {
-      this._isLoading = false;
-      this._list = response.data.map((item) => normalizeCoin(item));
-    });
-  }
+    try {
+      const endpoint = await apiEndpointStore.getListEndpoint(++this._page);
+      const response = await axios.get<CoinItemApi[]>(endpoint);
 
-  async getNewItems(): Promise<void> {
-    const endpoint = await apiEndpointStore.getListEndpoint(++this._page);
-    const response = await axios.get<CoinItemApi[]>(endpoint);
+      runInAction(() => {
+        this._status = RequestStatus.success;
 
-    runInAction(() => {
-      if (response.data.length < ITEMS_PER_PAGE) {
+        if (response.data.length < ITEMS_PER_PAGE) {
+          this._hasNextPage = false;
+        }
+
+        this._list = [
+          ...this._list,
+          ...response.data.map((item) => normalizeCoin(item)),
+        ];
+
+        this._page = Math.ceil(this._list.length / ITEMS_PER_PAGE);
+      });
+    } catch (error) {
+      runInAction(() => {
         this._hasNextPage = false;
-      }
-
-      this._list = [
-        ...this._list,
-        ...response.data.map((item) => normalizeCoin(item)),
-      ];
-
-      this._page = Math.ceil(this._list.length / ITEMS_PER_PAGE);
-    });
+        this._status = RequestStatus.error;
+      });
+    }
   }
 
   destroy(): void {
@@ -87,11 +90,11 @@ export default class CoinsListStore implements ILocalStore {
 
   private readonly _currencyChangeReaction = reaction(
     () => rootStore.currentCurrency.currency,
-    () => this.getCoinsList()
+    () => this.getPage(true)
   );
 
   private readonly _qsChangeReaction = reaction(
     () => rootStore.query.getParam("search"),
-    () => this.getCoinsList()
+    () => this.getPage(true)
   );
 }
