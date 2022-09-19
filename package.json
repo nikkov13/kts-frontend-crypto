@@ -2,6 +2,7 @@
   "name": "kts-frontend-crypto",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nikkov13.github.io",
   "dependencies": {
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
@@ -23,7 +24,9 @@
     "build": "NODE_ENV=production webpack --mode=production",
     "ts-check": "tsc --skipLibCheck --noEmit --project tsconfig.json",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +65,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
