@@ -50,7 +50,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(srcPath, "index.html"),
-      publicPath: "./"
+      publicPath: "./",
     }),
     !isProd && new ReactRefreshWebpackPlugin(),
     new TsCheckPlugin(),
